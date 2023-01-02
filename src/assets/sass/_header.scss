@@ -1,0 +1,64 @@
+.header {
+    @include container-padding;
+    display: flex;
+    justify-content: space-between;
+    background-color: $black;
+    color: $white;
+
+    .icon {
+        padding: 5% 10%;
+    }
+
+    .menu {
+        @include flex-center;
+        position: relative;
+
+        
+        .hamburger-icon {
+            cursor: pointer;
+
+            @media screen and (min-width: 568px) {
+                display: none;
+            }
+        }
+
+        
+        nav {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            padding: 0% 100%;
+            background-color: $black;
+
+            @media screen and (max-width: 568px) {
+                &[data-toggle-menu="show"] {
+                    display: flex;
+                }
+            }
+
+
+            @media screen and (min-width: 568px) {
+                display: flex;
+                flex-direction: row;
+                position: relative;
+                top: unset;
+                padding: unset;
+            }
+
+
+
+            li {
+                list-style: none;
+
+                @media screen and (min-width: 568px) {
+                    padding: 0% 5%;
+                }
+            }
+
+
+        }
+
+
+    }
+}
