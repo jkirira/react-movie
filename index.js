@@ -9,6 +9,7 @@ const moviesRouter = require('./server/routes/movie-routes');
 require('dotenv').config();
 
 const APP_ENV = process.env.APP_ENV;
+const API_IMAGE_URL = process.env.API_IMAGE_URL;
 
 const port = process.env.PORT || 4000;
  
@@ -55,6 +56,25 @@ app.use(cacheIfSuccessResponse);
 
 
 // routes
+app.get('/images/:file_path', (req, res) => {
+
+    let file_path = req.params['file_path'];
+    if (!file_path) {
+        res.status(500).json({error: "Missing file path"});
+    }
+
+    
+    let width = req.query.width;
+    width = ( !!width || isNaN(width) ) ? 'original' : `w${width}`;
+
+
+    let image_url = `${API_IMAGE_URL}/${width}/${file_path}`;
+    res.redirect(image_url);
+
+});
+
+
+
 app.use('/api/movies', moviesRouter);
 
 
