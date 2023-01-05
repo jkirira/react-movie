@@ -23,4 +23,19 @@ router.get('/', async(req, res) => {
 });
 
 
+router.get('/:movie_id', async(req, res) => {
+    await axios.get(`${API_BASE_URL}/movie/${req.params.movie_id}?${API_KEY_NAME}=${API_KEY_VALUE}`)
+                .then(response => {
+                    // console.log(response.data);
+                    res.status(200).json(response.data);
+                })
+                .catch(error => {
+                    console.log(`${API_BASE_URL}/movie/${req.params.movie_id}?${API_KEY_NAME}=${API_KEY_VALUE}`)
+                    console.log(error.response.data);
+                    res.status(500).json(error.response.data);
+                });
+
+});
+
+
 module.exports = router;

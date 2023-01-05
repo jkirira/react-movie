@@ -1,5 +1,6 @@
 .content {
     display: flex;
+    min-height: 100vh;
 
     .sidebar {
         flex-grow: 1;
@@ -34,7 +35,7 @@
     }
 
     main {
-        flex-grow: 4;
+        flex-grow: 5;
     }
 
 }
@@ -48,7 +49,7 @@
 .movie-cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 0.5% 1%;
+    gap: 0.5% 0.5%;
     padding: 5%;
     
 
@@ -92,4 +93,50 @@
 
     }
 
+}
+
+.movie-splash {
+    background-color: $gray-background;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 750px;
+    overflow: hidden;
+
+    .splash-image {
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.movie-details {
+    padding: 0 2%;
+    margin: 2.5% 0;
+
+    .movie-genres {
+        display: flex;
+        align-items: center;
+        margin: 1% 0;
+
+        .genre-tag {
+            @include flex-center;
+            color: $black;
+            background-color: $gray-background;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin-left: 5px;
+        }
+    }
+
+    .movie-title {
+        margin: 1% 0;
+    }
+
+    .movie-overview {
+        margin: 1% 0;
+    }
+
+    
 }
