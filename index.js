@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const apicache = require('apicache');
+const path = require('path');
 
 const moviesRouter = require('./server/routes/movie-routes');
 
@@ -77,6 +78,10 @@ app.get('/images/:file_path', (req, res) => {
 
 app.use('/api/movies', moviesRouter);
 
+
+app.get('/*', function(req, res) {
+    res.sendFile(path.resolve(__dirname) + '/public/index.html');
+});
 
 
 
