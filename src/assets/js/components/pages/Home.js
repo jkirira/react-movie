@@ -5,7 +5,9 @@ export default function Home() {
 
     return (
         <>
-            <MovieList />
+            <section className="home-page-list">
+                <MovieList />
+            </section>
         </>
     );
 }

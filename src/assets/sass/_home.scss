@@ -3,6 +3,7 @@
     min-height: 100vh;
     position: relative;
     z-index: 1;
+    overflow: hidden;
 
     .sidebar {
         display: flex;
@@ -90,98 +91,11 @@
     @include flex-center;
     flex-direction: column;
     width: 100%;
-}
-   
-.movie-cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 4rem 4rem;
-    padding: 5%;
-    
-
-    .movie-card {
-        background-color: $gray-background;
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center center;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        width: 400px;
-        height: 600px;
-
-        .movie-description {
-            display: none;
-            flex-direction: column;
-            position: absolute;
-            bottom: -100%;
-            background: rgba(0,0,0,.8);
-            color: $white;
-            padding: 5%;
-
-            .meta-data {
-                margin-top: 5%;
-            }
-        }
-
-    
-        &:hover {
-            cursor: pointer;
-            transform: scale(1.05);
-            transition-timing-function: ease-out;
-
-            .movie-description {
-                display: flex;
-                bottom: 0;
-            }
-
-        }
-
-    }
-
+    padding: 5% 0;
 }
 
-.movie-splash {
-    background-color: $gray-background;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    height: 750px;
-    overflow: hidden;
-
-    .splash-image {
-        max-height: 100%;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-}
-
-.movie-details {
-    padding: 0 2%;
-    margin: 2.5% 0;
-
-    .movie-genres {
-        display: flex;
-        align-items: center;
-        margin: 1% 0;
-
-        .genre-tag {
-            @include flex-center;
-            color: $black;
-            background-color: $gray-background;
-            padding: 5px 10px;
-            border-radius: 15px;
-            margin-left: 5px;
-        }
-    }
-
-    .movie-title {
-        margin: 1% 0;
-    }
-
-    .movie-overview {
-        margin: 1% 0;
-    }
-
+.home-page-list {
+    display: flex;
+    flex-direction: column;
+    padding: 5% 5% 0 5%;
 }

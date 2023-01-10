@@ -29,7 +29,7 @@ export default function MovieCard({movie}) {
                 </section>
                 <section className="meta-data">
                     <p><strong>Release Date:</strong></p>
-                    <p> { format(new Date(movie.release_date), 'eeee do MMMM yyyy') }</p>
+                    <p> { movie.release_date && format(new Date(movie.release_date), 'eeee do MMMM yyyy') }</p>
                 </section>
             </div>
 
