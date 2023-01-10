@@ -74,7 +74,24 @@ app.get('/images/:file_path', (req, res) => {
 
 });
 
+app.post('/api/subscribe', function (req, res) {
 
+    const random_boolean = Math.random() < 0.5;
+    
+    // Math.floor(Math.random() * (max - min + 1) + min);
+    const random_delay_in_seconds = Math.floor(Math.random() * (10 - 1 + 1) + 1);
+
+    setTimeout(() => {
+
+        // TODO: implement subscription backend
+
+        random_boolean 
+            ? res.status(200).json({message: "User subscribed successfully."})
+            : res.status(500).json({message: "Could not subscribe user."})
+
+    }, random_delay_in_seconds * 1000);
+
+})
 
 app.use('/api/movies', moviesRouter);
 

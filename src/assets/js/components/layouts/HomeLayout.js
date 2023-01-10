@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 
 import Header from "../partials/Header";
 import Sidebar from "../partials/Sidebar";
+import Footer from "../partials/Footer";
 
 export default function HomeLayout() {
 
@@ -15,6 +16,7 @@ export default function HomeLayout() {
                     <Outlet />
                 </main>
             </div>
+            <Footer />
         </>
     );
 }
