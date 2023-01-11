@@ -5,6 +5,7 @@ const apicache = require('apicache');
 const path = require('path');
 
 const moviesRouter = require('./server/routes/movie-routes');
+const tvShowsRouter = require('./server/routes/tv-show-routes');
 
 // environment variables
 require('dotenv').config();
@@ -95,6 +96,7 @@ app.post('/api/subscribe', function (req, res) {
 
 app.use('/api/movies', moviesRouter);
 
+app.use('/api/tv-shows', tvShowsRouter);
 
 app.get('/*', function(req, res) {
     res.sendFile(path.resolve(__dirname) + '/public/index.html');
