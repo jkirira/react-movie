@@ -67,7 +67,7 @@ app.get('/images/:file_path', (req, res) => {
 
     
     let width = req.query.width;
-    width = ( !!width || isNaN(width) ) ? 'original' : `w${width}`;
+    width = ( !width || isNaN(width) ) ? 'original' : `w${width}`;
 
 
     let image_url = `${API_IMAGE_URL}/${width}/${file_path}`;
