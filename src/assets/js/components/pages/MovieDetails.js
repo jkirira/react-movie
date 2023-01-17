@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import LoadingComponent from "../partials/LoadingComponent";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 
 import { fetchMovieDetails } from "../../api/moviesApi";
 
 export default function MovieDetails() {
-    const [movieDetails, setMovieDetails] = useState({});
+    const [movieDetails, setMovieDetails] = useState(null);
     const { movie_id } = useParams();
 
     useEffect(() => {
@@ -34,33 +35,42 @@ export default function MovieDetails() {
     }, [])
 
     return (
-        <>
-            <div className="movie-splash">
-                <img className="splash-image" src={`/images/${ movieDetails.backdrop_path && movieDetails.backdrop_path.split('/').pop() }`} />
-            </div>
 
-            <div className="movie-details">
-                <section className="movie-genres">
-                    <p><strong>Genres: </strong></p>
-                    { movieDetails.genres && movieDetails.genres.map(genre => <span className="genre-tag" key={genre.id}>{genre.name}</span>) }
-                </section>
-
-                <section className="movie-title">
-                    <h2>{ movieDetails.title }</h2>
-                    <h5>{ movieDetails.tagline }</h5>
-                </section>
+            movieDetails 
+            
+            ?   <>
                 
-                <section className="movie-overview">
-                    <p>{ movieDetails.overview }</p>
-                </section>
+                    <div className="movie-splash">
+                        <img className="splash-image" src={`/images/${ movieDetails.backdrop_path && movieDetails.backdrop_path.split('/').pop() }`} />
+                    </div>
 
-                <p><strong>Release Date: </strong>{ movieDetails.release_date && format(new Date(movieDetails.release_date), 'eeee do MMMM yyyy') }</p>
+                    <div className="movie-details">
+                        <section className="movie-genres">
+                            <p><strong>Genres: </strong></p>
+                            { movieDetails.genres && movieDetails.genres.map(genre => <span className="genre-tag" key={genre.id}>{genre.name}</span>) }
+                        </section>
 
-                <br />
-                { movieDetails.homepage && <a href={movieDetails.homepage} target="_blank">Go to website</a> }
+                        <section className="movie-title">
+                            <h2>{ movieDetails.title }</h2>
+                            <h5>{ movieDetails.tagline }</h5>
+                        </section>
+                        
+                        <section className="movie-overview">
+                            <p>{ movieDetails.overview }</p>
+                        </section>
 
-            </div>
+                        <p><strong>Release Date: </strong>{ movieDetails.release_date && format(new Date(movieDetails.release_date), 'eeee do MMMM yyyy') }</p>
 
-        </>
+                        <br />
+                        { movieDetails.homepage && <a href={movieDetails.homepage} target="_blank">Go to website</a> }
+
+                    </div>
+                
+                </>
+
+            :   <div>
+                    <LoadingComponent>Fetching Movie Details...</LoadingComponent>
+                </div>
+         
     );
 }

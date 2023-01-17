@@ -87,3 +87,35 @@ p, h1, h2, h3, h4, h5, h6 {
     .footer {}
 
 }
+
+.loading-component{
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+    @include flex-center;
+
+    .loader {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #FFF;
+        border-bottom-color: $blue;
+        border-radius: 50%;
+        display: inline-block;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+        margin: 2.5% 0;
+    }
+
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .loader-text {
+        margin-top: 2.5%;
+    }
+}
