@@ -6,6 +6,7 @@ import HomeLayout from "./assets/js/components/layouts/HomeLayout";
 import Home from "./assets/js/components/pages/Home";
 import ErrorPage from "./assets/js/components/pages/ErrorPage";
 import MovieDetails from "./assets/js/components/pages/MovieDetails";
+import MoviesPage from "./assets/js/components/pages/MoviesPage";
 
 
 const router = createBrowserRouter(
@@ -13,7 +14,8 @@ const router = createBrowserRouter(
 		<Route path="/" element={<HomeLayout />}>
 			<Route errorElement={<ErrorPage />}>
 				<Route index element={<Home />} />
-				<Route path="movies/:movie_id" element={<MovieDetails />} errorElement={<ErrorPage />} />
+				<Route path="movies" element={<MoviesPage />} />
+				<Route path="movies/:movie_id" element={<MovieDetails />} />
 			</Route>
 		</Route>
 	)

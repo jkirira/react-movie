@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-export const fetchMovies = () => {
+export const fetchMovies = (pageNumber) => {
+
+    if(!!pageNumber) {
+        console.log('page number', pageNumber);
+        return axios.get(`/api/movies?page=${pageNumber}`);
+    }
+
     return axios.get('/api/movies');
 };
 

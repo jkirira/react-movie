@@ -82,7 +82,9 @@
     }
 
     main {
-        // flex-grow: 5;
+        @media screen and (min-width: 540px) {
+            min-width: 85vw;
+        }
     }
 
 }
@@ -94,8 +96,41 @@
     padding: 5% 0;
 }
 
-.home-page-list {
+.home-page-list, .movies_page {
     display: flex;
     flex-direction: column;
-    padding: 5% 5% 0 5%;
+    padding: 1% 0.25% 0;
+    @media screen and (min-width: 540px) {
+        padding: 5% 5% 0;
+
+    }
+}
+
+.pagination-nav{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 3% 0;
+
+    ul {
+        display: flex;
+        padding: 0;
+
+        li {
+            @include flex-center;
+            padding: 8px;
+            border-color: $gray-background;
+            border-width: 2px 1px;
+            border-style: solid;
+            color: $blue;
+
+            &.current, &:hover {
+                background: $blue;
+                border-color: $blue;
+                color: $white;
+                cursor: pointer;
+            }
+
+        }
+    }
 }

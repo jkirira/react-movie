@@ -10,7 +10,13 @@ const API_KEY_VALUE = process.env.API_KEY_VALUE;
 
 
 router.get('/', async(req, res) => {
-    await axios.get(`${API_BASE_URL}/discover/movie?${API_KEY_NAME}=${API_KEY_VALUE}`)
+    let movie_url = `${API_BASE_URL}/discover/movie?${API_KEY_NAME}=${API_KEY_VALUE}`;
+
+    if (!!req.query['page']) {
+        movie_url = movie_url + `&page=${req.query['page']}`;
+    }
+    
+    await axios.get(movie_url)
                 .then(response => {
                     // console.log(response.data);
                     res.status(200).json(response.data);
