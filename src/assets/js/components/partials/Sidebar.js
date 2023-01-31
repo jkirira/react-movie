@@ -44,6 +44,9 @@ function Sidebar () {
                         <NavLink to="/movies" className={ ({ isActive }) => isActive ? 'active' : '' }>
                             Movies
                         </NavLink>
+                        <NavLink to="/tv-shows" className={ ({ isActive }) => isActive ? 'active' : '' }>
+                            Tv Shows
+                        </NavLink>
                     </li>
                 </ul>
             </nav>

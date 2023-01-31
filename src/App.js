@@ -7,6 +7,7 @@ import Home from "./assets/js/components/pages/Home";
 import ErrorPage from "./assets/js/components/pages/ErrorPage";
 import MovieDetails from "./assets/js/components/pages/MovieDetails";
 import MoviesPage from "./assets/js/components/pages/MoviesPage";
+import TvShowsPage from "./assets/js/components/pages/TvShowsPage";
 
 
 const router = createBrowserRouter(
@@ -16,6 +17,7 @@ const router = createBrowserRouter(
 				<Route index element={<Home />} />
 				<Route path="movies" element={<MoviesPage />} />
 				<Route path="movies/:movie_id" element={<MovieDetails />} />
+				<Route path="tv-shows" element={<TvShowsPage />} />
 			</Route>
 		</Route>
 	)
