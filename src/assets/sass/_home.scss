@@ -10,17 +10,17 @@
         min-height: 100%;
         position: absolute;
         z-index: 2;
-        width: 100%;
 
         @media screen and (min-width: 540px) {
             position: relative;
             z-index: inherit;
-            width: unset;
         }
 
         // Toggle sidebar width on small screens
         @media screen and (max-width: 540px) {
             &[data-toggle-sidebar="show"] {
+                width: 100%;
+
                 .sidebar-nav {
                     min-width: 55vw;
                     border-right: 2px solid $gray-background;

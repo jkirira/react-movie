@@ -65,7 +65,7 @@ export default function MoviesPage() {
 
                 <>
 
-                    <div className="movie-cards-container">
+                    <div className="movies_page__movies">
                         {
                             movies.map(m => <MovieCard key={m.id} movie={m} />)
                         }
