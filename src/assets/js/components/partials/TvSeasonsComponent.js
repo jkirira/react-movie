@@ -95,7 +95,7 @@ function TvSeasonsComponent({tv_show_id, number_of_seasons}) {
                                     {  
                                         seasonEpisodes[selectedSeasonNumber].length 
                                     
-                                        ? seasonEpisodes[selectedSeasonNumber].map(episode => <li key={episode.id}>
+                                        ? seasonEpisodes[selectedSeasonNumber].map(episode => <li key={episode.id} className={ (selectedEpisode?.id === episode.id ? "active" : '') } >
                                                                                                 <p className="episode-name" onClick={() => handleEpisodeClick(episode.id)}><strong>Episode {episode.episode_number}:</strong> {episode.name}</p>
                                                                                                 <strong>Aired on:</strong> { getFormattedDate(episode.air_date) }
                                                                                             </li>)
@@ -112,6 +112,16 @@ function TvSeasonsComponent({tv_show_id, number_of_seasons}) {
                                         <h2>Episode {selectedEpisode?.episode_number}: {selectedEpisode?.name}</h2>
                                         <h5>Season: { selectedEpisode?.season_number }</h5>
                                     </section>
+
+                                    {
+                                        selectedEpisode?.still_path
+
+                                        &&
+                                        
+                                        <section className="still-path">
+                                            <img src={`/images/${ selectedEpisode.still_path.split('/').pop() }`} />
+                                        </section>
+                                    }
                                     
                                     <section className="movie-overview">
                                         <p>{ selectedEpisode?.overview }</p>
