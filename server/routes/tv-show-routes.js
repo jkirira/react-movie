@@ -28,4 +28,33 @@ router.get('/', async(req, res) => {
 
 });
 
+
+router.get('/:tv_show_id', async(req, res) => {
+    await axios.get(`${API_BASE_URL}/tv/${req.params.tv_show_id}?${API_KEY_NAME}=${API_KEY_VALUE}`)
+                .then(response => {
+                    // console.log(response.data);
+                    res.status(200).json(response.data);
+                })
+                .catch(error => {
+                    console.log(`${API_BASE_URL}/tv/${req.params.tv_show_id}?${API_KEY_NAME}=${API_KEY_VALUE}`)
+                    console.log(error.response.data);
+                    res.status(500).json(error.response.data);
+                });
+
+});
+
+
+router.get('/:tv_show_id/season/:season_number', async(req, res) => {
+    await axios.get(`${API_BASE_URL}/tv/${req.params.tv_show_id}/season/${req.params.season_number}?${API_KEY_NAME}=${API_KEY_VALUE}`)
+                .then(response => {
+                    // console.log(response.data);
+                    res.status(200).json(response.data);
+                })
+                .catch(error => {
+                    console.log(error.response.data);
+                    res.status(500).json(error.response.data);
+                });
+
+});
+
 module.exports = router;

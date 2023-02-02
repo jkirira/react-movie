@@ -1,15 +1,23 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
 export default function TvShowCard({tv_show}) {
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/tv-shows/${tv_show.id}`);
+    }
 
     return (
         <div 
             className="movie-card"
             style={{
                 backgroundImage: `url(/images/${ tv_show.poster_path.split('/').pop() }?width=400)`
-            }}>
+            }}
+            onClick={handleClick}>
 
             <div className="movie-description">
                 <section className="title">

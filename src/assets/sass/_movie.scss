@@ -12,7 +12,6 @@
 
 }
 
-
 .movie-card {
     background-color: $gray-background;
     background-size: cover;
@@ -127,5 +126,71 @@
 
     @media screen and (min-width: 540px) {
         grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        padding-right: unset;
+        padding-left: unset;
+    }
+}
+
+.tv-show-episode-details {
+    margin: 2% 0;
+    display: grid;
+    grid-gap: 3.5%;
+}
+
+.seasons {
+    margin: 5% 0;
+    
+    .seasons-list {
+        margin: 2% 0;
+    }
+
+    .season-tag {
+        cursor: pointer;
+        padding: 0.5%;
+        margin-right: 0.5%;
+
+        &.active, &:hover {
+            background: $gray-background;
+        }
+    }
+
+    .season-episodes-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        border: 1px solid $gray-background;
+        overflow: hidden;
+        max-height: 400px;
+
+        .episodes-list {
+            max-height: inherit;
+            overflow: scroll;
+
+            ul {
+                padding: 0;
+
+                li {
+                    list-style: none;
+                    border-color: $gray-background;
+                    border-width: 0.5px 1px;
+                    border-style: solid;
+
+                    .episode-name {
+                        cursor: pointer;
+                    }
+
+                }
+            }
+        }
+
+        .episode-details {
+            display: none;
+            max-height: inherit;
+            overflow: scroll;
+        
+            &[data-show=true] {
+                display: block;
+            }
+        }
+
     }
 }

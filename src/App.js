@@ -8,6 +8,7 @@ import ErrorPage from "./assets/js/components/pages/ErrorPage";
 import MovieDetails from "./assets/js/components/pages/MovieDetails";
 import MoviesPage from "./assets/js/components/pages/MoviesPage";
 import TvShowsPage from "./assets/js/components/pages/TvShowsPage";
+import TvShowDetails from "./assets/js/components/pages/TvShowDetails";
 
 
 const router = createBrowserRouter(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
 				<Route path="movies" element={<MoviesPage />} />
 				<Route path="movies/:movie_id" element={<MovieDetails />} />
 				<Route path="tv-shows" element={<TvShowsPage />} />
+				<Route path="tv-shows/:tv_show_id" element={<TvShowDetails />} />
 			</Route>
 		</Route>
 	)
