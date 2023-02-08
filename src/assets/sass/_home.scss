@@ -139,3 +139,44 @@
         }
     }
 }
+
+.search-section {
+    width: 100%;
+    @include container-padding;
+
+    .search-wrapper {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 90% 10%;
+        margin-top: 5%;
+        place-items: center;
+        border: 2px solid $gray-background;
+        cursor: pointer;
+
+        input:-webkit-autofill, 
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus,
+        input:-internal-autofill-selected {
+            transition: background-color 600000s 0s, transparent 600000s 0s;
+        }
+
+        .search-input {
+            border: none;
+            overflow: scroll;
+            width: 100%;
+            padding: 2% 0;
+            padding-left: 5%;
+
+            &:focus, &:hover {
+                outline: none;
+            }
+
+        }
+
+        .search-icon {
+            display: block;
+        }
+
+    }
+
+}

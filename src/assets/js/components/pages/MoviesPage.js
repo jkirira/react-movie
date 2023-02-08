@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import MovieCard from "../partials/MovieCard";
 import PaginationComponent from "../partials/PaginationComponent";
 import LoadingComponent from "../partials/LoadingComponent";
+import SearchComponent from "../partials/SearchComponent";
+
 import { fetchMovies } from "../../api/moviesApi";
-import { useSearchParams } from "react-router-dom";
 
 
 export default function MoviesPage() {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [movieSearchQuery, setMovieSearchQuery] = useState('');
     let [searchParams, setSearchParams] = useSearchParams();
 
     let currentPageNumber = searchParams.get('page');
@@ -46,6 +49,10 @@ export default function MoviesPage() {
         setSearchParams(searchParams);
     }
 
+    const handleSearchInput = (e) => {
+        setMovieSearchQuery(e.target.value);
+    }
+
 
     return (
         <div className="movies_page">
@@ -64,6 +71,10 @@ export default function MoviesPage() {
                 :
 
                 <>
+
+                    <div className="search-container">
+                        <SearchComponent onChangeHandler={handleSearchInput} />
+                    </div>
 
                     <div className="movies_page__movies">
                         {
