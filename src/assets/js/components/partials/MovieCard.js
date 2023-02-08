@@ -16,7 +16,7 @@ export default function MovieCard({movie}) {
         <div 
             className="movie-card"
             style={{
-                backgroundImage: `url(/images/${ movie.poster_path.split('/').pop() }?width=400)`
+                backgroundImage: `url(/images/${ movie.poster_path?.split('/').pop() }?width=400)`
             }}
             onClick={handleClick}>
 

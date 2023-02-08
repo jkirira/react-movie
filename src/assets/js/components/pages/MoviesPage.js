@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useDeferredValue, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import MovieCard from "../partials/MovieCard";
@@ -13,8 +13,11 @@ export default function MoviesPage() {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [movieSearchQuery, setMovieSearchQuery] = useState('');
+    const [totalNumberOfPages, setTotalNumberOfPages] = useState(1);
     let [searchParams, setSearchParams] = useSearchParams();
 
+    const deferredMovieSearchQuery = useDeferredValue(movieSearchQuery);
+    
     let currentPageNumber = searchParams.get('page');
 
     useEffect(() => {
@@ -23,10 +26,21 @@ export default function MoviesPage() {
 
         setLoading(true);
 
-        fetchMovies(currentPageNumber)
+        let params = {};
+        
+        if(!!currentPageNumber) {
+            params['page'] = currentPageNumber;
+        }
+        
+        if(!!deferredMovieSearchQuery) {
+            params['search'] = deferredMovieSearchQuery;
+        }
+
+        fetchMovies(params)
                 .then(response => {
                     if (!ignore) {
                         setMovies(response.data.results);
+                        setTotalNumberOfPages(response.data.total_pages);
                     }
                 })
                 .catch(error => {
@@ -41,7 +55,7 @@ export default function MoviesPage() {
             setLoading(false);
         }
 
-    }, [currentPageNumber]);
+    }, [currentPageNumber, deferredMovieSearchQuery]);
 
 
     const handlePaginate = (index) => {
@@ -60,6 +74,19 @@ export default function MoviesPage() {
             <h2>Explore Movies</h2>
 
             {
+
+                ( !loading || (loading && !!movieSearchQuery) )
+
+                &&
+
+                <div className="search-container">
+                    <SearchComponent value={movieSearchQuery} placeholder="Search Movies..." onChangeHandler={handleSearchInput} />
+                </div>
+
+            }
+
+
+            {
                 loading || !movies.length
                 
                 ?
@@ -70,34 +97,23 @@ export default function MoviesPage() {
 
                 :
 
-                <>
+                    <>
 
-                    <div className="search-container">
-                        <SearchComponent placeholder="Search Movies..." onChangeHandler={handleSearchInput} />
-                    </div>
+                        <div className="movies_page__movies">
+                            {
+                                movies.map(m => <MovieCard key={m.id} movie={m} />)
+                            }
+                        </div>
+                    
+                        <PaginationComponent
+                            currentPage={currentPageNumber ? currentPageNumber : undefined}
+                            min={1}
+                            max={totalNumberOfPages > 10 ? 10 : totalNumberOfPages}
+                            handlePaginate={handlePaginate}
+                        />
 
-                    <div className="movies_page__movies">
-                        {
-                            movies.map(m => <MovieCard key={m.id} movie={m} />)
-                        }
-                    </div>
+                    </>
 
-                </>
-                 
-            }
-
-
-            {
-                movies.length
-
-                &&
-
-                <PaginationComponent
-                    currentPage={currentPageNumber ? currentPageNumber : undefined}
-                    min={1}
-                    max={10}
-                    handlePaginate={handlePaginate}
-                />
             }
 
 

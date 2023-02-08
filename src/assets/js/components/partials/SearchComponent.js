@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
-function SearchComponent({placeholder, onChangeHandler}) {
-    // const [movieSearchQuery, setMovieSearchQuery] = useState('');
+function SearchComponent({value, placeholder, onChangeHandler}) {
 
     const SearchIcon = useMemo(() => <FontAwesomeIcon className='search-icon' icon={solid('magnifying-glass')} />, []);
 
@@ -22,7 +21,7 @@ function SearchComponent({placeholder, onChangeHandler}) {
                         name="search" 
                         placeholder={placeholder}
                         ref={searchInputRef}
-                        // value={movieSearchQuery} 
+                        value={value} 
                         onChange={(e) => onChangeHandler(e)} />
                 { SearchIcon }
             </div>
@@ -31,11 +30,13 @@ function SearchComponent({placeholder, onChangeHandler}) {
 }
 
 SearchComponent.defaultProps = {
+    value: "",
     placeholder: "Search",
     onChangeHandler: () => {},
 }
 
 SearchComponent.propTypes = {
+    value: PropTypes.string,
     placeholder: PropTypes.string,
     onChangeHandler: PropTypes.func,
 }
