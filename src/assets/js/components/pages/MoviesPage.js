@@ -73,7 +73,7 @@ export default function MoviesPage() {
                 <>
 
                     <div className="search-container">
-                        <SearchComponent onChangeHandler={handleSearchInput} />
+                        <SearchComponent placeholder="Search Movies..." onChangeHandler={handleSearchInput} />
                     </div>
 
                     <div className="movies_page__movies">
