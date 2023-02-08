@@ -44,14 +44,14 @@ export default function TvShowsPage() {
     }, [currentPageNumber]);
 
 
-    const handlePaginate = (index) => {
+    const handlePaginate = useCallback((index) => {
         searchParams.set("page", index);
         setSearchParams(searchParams);
-    }
+    }, []);
 
-    const handleSearchInput = (e) => {
+    const handleSearchInput = useCallback((e) => {
         setTvSearchQuery(e.target.value);
-    }
+    }, []);
 
 
     return (

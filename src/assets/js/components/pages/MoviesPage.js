@@ -58,14 +58,15 @@ export default function MoviesPage() {
     }, [currentPageNumber, deferredMovieSearchQuery]);
 
 
-    const handlePaginate = (index) => {
+    const handlePaginate = useCallback((index) => {
         searchParams.set("page", index);
         setSearchParams(searchParams);
-    }
+    }, []);
 
-    const handleSearchInput = (e) => {
+
+    const handleSearchInput = useCallback((e) => {
         setMovieSearchQuery(e.target.value);
-    }
+    }, []);
 
 
     return (
