@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import TvShowCard from "../partials/TvShowCard";
 import PaginationComponent from "../partials/PaginationComponent";
 import LoadingComponent from "../partials/LoadingComponent";
+import SearchComponent from "../partials/SearchComponent";
+
 import { fetchTvShows } from "../../api/tvShowsApi";
-import { useSearchParams } from "react-router-dom";
 
 
 export default function TvShowsPage() {
     const [tvShows, setTvShows] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [tvSearchQuery, setTvSearchQuery] = useState('');
     let [searchParams, setSearchParams] = useSearchParams();
 
     let currentPageNumber = searchParams.get('page');
@@ -46,6 +49,10 @@ export default function TvShowsPage() {
         setSearchParams(searchParams);
     }
 
+    const handleSearchInput = (e) => {
+        setTvSearchQuery(e.target.value);
+    }
+
 
     return (
         <div className="movies_page">
@@ -64,6 +71,10 @@ export default function TvShowsPage() {
                 :
 
                 <>
+
+                    <div className="search-container">
+                        <SearchComponent placeholder="Search Tv Shows..." onChangeHandler={handleSearchInput} />
+                    </div>
 
                     <div className="movies_page__movies">
                         {
