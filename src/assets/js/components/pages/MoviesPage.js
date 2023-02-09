@@ -21,8 +21,7 @@ export default function MoviesPage() {
     let currentPageNumber = searchParams.get('page');
 
     useEffect(() => {
-        console.log('rerendering movies page ' + new Date().getTime());
-        let ignore = false;
+        console.log('rerendering movies page ' + new Date().toString());
 
         setLoading(true);
 
@@ -35,24 +34,42 @@ export default function MoviesPage() {
         if(!!deferredMovieSearchQuery) {
             params['search'] = deferredMovieSearchQuery;
         }
+        
+        if(!!movieSearchQuery) {
+            params['search'] = movieSearchQuery;
+        }
 
-        fetchMovies(params)
+        const controller = new AbortController();
+        
+        let options = { 
+            signal: controller.signal,
+            params: params
+        }
+
+        fetchMovies(options)
                 .then(response => {
-                    if (!ignore) {
-                        setMovies(response.data.results);
-                        setTotalNumberOfPages(response.data.total_pages);
-                    }
+                    setMovies(response.data.results);
+                    setTotalNumberOfPages(response.data.total_pages);
                 })
                 .catch(error => {
+                    // if (error.name === 'AbortError') { // ignore loading }
                     console.error(error);
                 })
                 .then(() => {
-                    setLoading(false);
+                    
+                    /*
+                    * 
+                    *   only remove loading if the request was not cancelled
+                    *
+                    */
+                    if (!controller.signal.aborted) {
+                        setLoading(false);
+                    }
+
                 })
 
         return () => {
-            ignore = true;
-            setLoading(false);
+            controller.abort();
         }
 
     }, [currentPageNumber, deferredMovieSearchQuery]);
@@ -76,7 +93,7 @@ export default function MoviesPage() {
 
             {
 
-                ( !loading || (loading && !!movieSearchQuery) )
+                ( !loading || !!movieSearchQuery )
 
                 &&
 
@@ -88,32 +105,52 @@ export default function MoviesPage() {
 
 
             {
-                loading || !movies.length
+
+                loading
                 
-                ?
+                &&
+                
+                <div>
+                    <LoadingComponent>Loading Movies...</LoadingComponent>
+                </div>
 
-                    <div>
-                        <LoadingComponent>Loading Movies...</LoadingComponent>
-                    </div>
-
-                :
-
-                    <>
-
-                        <div className="movies_page__movies">
-                            {
-                                movies.map(m => <MovieCard key={m.id} movie={m} />)
-                            }
-                        </div>
+            }
                     
-                        <PaginationComponent
-                            currentPage={currentPageNumber ? currentPageNumber : undefined}
-                            min={1}
-                            max={totalNumberOfPages > 10 ? 10 : totalNumberOfPages}
-                            handlePaginate={handlePaginate}
-                        />
+                    
+            {
+                            
+                !loading 
+                
+                && 
+                
+                (
+                    movies?.length
 
-                    </>
+                    ?
+                                
+                        <>
+
+                            <div className="movies_page__movies">
+                                {
+                                    movies.map(m => <MovieCard key={m.id} movie={m} />)
+                                }
+                            </div>
+                                                        
+                            <PaginationComponent
+                                currentPage={currentPageNumber ? currentPageNumber : undefined}
+                                min={1}
+                                max={totalNumberOfPages > 10 ? 10 : totalNumberOfPages}
+                                handlePaginate={handlePaginate}
+                            />
+
+                        </>
+                    
+                    :
+                        <div className="movies_page__movies">
+                            <p>No Movies found</p>
+                        </div>
+
+                )   
 
             }
 

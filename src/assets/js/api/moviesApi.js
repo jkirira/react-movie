@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const fetchMovies = (queryParams) => {
-    return axios.get('/api/movies', {params: queryParams});
+export const fetchMovies = (options) => {
+    return axios.get('/api/movies', options);
 };
 
 export const fetchMovieDetails = (id) => {
