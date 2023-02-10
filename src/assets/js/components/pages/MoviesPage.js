@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useDeferredValue, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import MovieCard from "../partials/MovieCard";
@@ -6,6 +6,7 @@ import PaginationComponent from "../partials/PaginationComponent";
 import LoadingComponent from "../partials/LoadingComponent";
 import SearchComponent from "../partials/SearchComponent";
 
+import useDebounce from "../../hooks/useDebounce";
 import { fetchMovies } from "../../api/moviesApi";
 
 
@@ -16,7 +17,7 @@ export default function MoviesPage() {
     const [totalNumberOfPages, setTotalNumberOfPages] = useState(1);
     let [searchParams, setSearchParams] = useSearchParams();
 
-    const deferredMovieSearchQuery = useDeferredValue(movieSearchQuery);
+    const debouncedMovieSearchQuery = useDebounce(movieSearchQuery);
     
     let currentPageNumber = searchParams.get('page');
 
@@ -31,12 +32,8 @@ export default function MoviesPage() {
             params['page'] = currentPageNumber;
         }
         
-        if(!!deferredMovieSearchQuery) {
-            params['search'] = deferredMovieSearchQuery;
-        }
-        
-        if(!!movieSearchQuery) {
-            params['search'] = movieSearchQuery;
+        if(!!debouncedMovieSearchQuery) {
+            params['search'] = debouncedMovieSearchQuery;
         }
 
         const controller = new AbortController();
@@ -53,10 +50,9 @@ export default function MoviesPage() {
                 })
                 .catch(error => {
                     // if (error.name === 'AbortError') { // ignore loading }
-                    console.error(error);
+                    // console.error(error);
                 })
                 .then(() => {
-                    
                     /*
                     * 
                     *   only remove loading if the request was not cancelled
@@ -72,7 +68,7 @@ export default function MoviesPage() {
             controller.abort();
         }
 
-    }, [currentPageNumber, deferredMovieSearchQuery]);
+    }, [currentPageNumber, debouncedMovieSearchQuery]);
 
 
     const handlePaginate = useCallback((index) => {
