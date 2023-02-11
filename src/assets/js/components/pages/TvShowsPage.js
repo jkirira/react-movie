@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import TvShowCard from "../partials/TvShowCard";
@@ -6,6 +6,7 @@ import PaginationComponent from "../partials/PaginationComponent";
 import LoadingComponent from "../partials/LoadingComponent";
 import SearchComponent from "../partials/SearchComponent";
 
+import useDebounce from "../../hooks/useDebounce";
 import { fetchTvShows } from "../../api/tvShowsApi";
 
 
@@ -13,35 +14,54 @@ export default function TvShowsPage() {
     const [tvShows, setTvShows] = useState([]);
     const [loading, setLoading] = useState(false);
     const [tvSearchQuery, setTvSearchQuery] = useState('');
+    const [totalNumberOfPages, setTotalNumberOfPages] = useState(1);
     let [searchParams, setSearchParams] = useSearchParams();
+
+    const debouncedTvSearchQuery = useDebounce(tvSearchQuery);
 
     let currentPageNumber = searchParams.get('page');
 
     useEffect(() => {
         console.log('rerendering tvShows page ' + new Date().getTime());
-        let ignore = false;
 
         setLoading(true);
 
-        fetchTvShows(currentPageNumber)
+        let params = {};
+        
+        if(!!currentPageNumber) {
+            params['page'] = currentPageNumber;
+        }
+        
+        if(!!debouncedTvSearchQuery) {
+            params['search'] = debouncedTvSearchQuery;
+        }
+
+        const controller = new AbortController();
+        
+        let options = { 
+            signal: controller.signal,
+            params: params
+        }
+
+        fetchTvShows(options)
                 .then(response => {
-                    if (!ignore) {
-                        setTvShows(response.data.results);
-                    }
+                    setTvShows(response.data.results);
+                    setTotalNumberOfPages(response.data.total_pages);
                 })
                 .catch(error => {
-                    console.error(error);
+                    // console.error(error);
                 })
                 .then(() => {
-                    setLoading(false);
+                    if (!controller.signal.aborted) {
+                        setLoading(false);
+                    }
                 })
 
         return () => {
-            ignore = true;
-            setLoading(false);
+            controller.abort();
         }
 
-    }, [currentPageNumber]);
+    }, [currentPageNumber, debouncedTvSearchQuery]);
 
 
     const handlePaginate = useCallback((index) => {
@@ -60,44 +80,66 @@ export default function TvShowsPage() {
             <h2>Explore Tv Shows</h2>
 
             {
-                loading || !tvShows.length
+
+                ( !loading || !!tvSearchQuery )
                 
-                ?
+                &&
 
-                    <div>
-                        <LoadingComponent>Loading Shows...</LoadingComponent>
-                    </div>
+                <div className="search-container">
+                    <SearchComponent value={tvSearchQuery} placeholder="Search Tv Shows..." onChangeHandler={handleSearchInput} />
+                </div>
 
-                :
-
-                <>
-
-                    <div className="search-container">
-                        <SearchComponent placeholder="Search Tv Shows..." onChangeHandler={handleSearchInput} />
-                    </div>
-
-                    <div className="movies_page__movies">
-                        {
-                            tvShows.map(t => <TvShowCard key={t.id} tv_show={t} />)
-                        }
-                    </div>
-
-                </>
-                 
             }
 
 
             {
-                tvShows.length
-
+                
+                loading
+                
                 &&
 
-                <PaginationComponent
-                    currentPage={currentPageNumber ? currentPageNumber : undefined}
-                    min={1}
-                    max={10}
-                    handlePaginate={handlePaginate}
-                />
+                <div>
+                    <LoadingComponent>Loading Shows...</LoadingComponent>
+                </div>
+
+            }
+
+
+            {
+                
+                !loading 
+                
+                &&
+                
+                (
+                    tvShows?.length
+
+                    ?
+                                
+                        <>
+
+                            <div className="movies_page__movies">
+                                {
+                                    tvShows.map(t => <TvShowCard key={t.id} tv_show={t} />)
+                                }
+                            </div>
+                                                        
+                            <PaginationComponent
+                                currentPage={currentPageNumber ? currentPageNumber : undefined}
+                                min={1}
+                                max={totalNumberOfPages > 10 ? 10 : totalNumberOfPages}
+                                handlePaginate={handlePaginate}
+                            />
+
+                        </>
+                    
+                    :
+                        <div className="movies_page__movies">
+                            <p>No Tv Shows found {tvShows.length}</p>
+                        </div>
+
+                )
+
             }
 
 

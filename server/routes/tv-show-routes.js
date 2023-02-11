@@ -10,13 +10,21 @@ const API_KEY_VALUE = process.env.API_KEY_VALUE;
 
 
 router.get('/', async(req, res) => {
+    let url = '';
     let tv_shows_url = `${API_BASE_URL}/discover/tv?${API_KEY_NAME}=${API_KEY_VALUE}`;
+    let search_url = `${API_BASE_URL}/search/tv?${API_KEY_NAME}=${API_KEY_VALUE}`;
+
+    if (!!req.query['search']) {
+        url = search_url + `&query=${req.query['search']}`;
+    } else {
+        url = tv_shows_url;
+    }
 
     if (!!req.query['page']) {
-        tv_shows_url = tv_shows_url + `&page=${req.query['page']}`;
+        url = url + `&page=${req.query['page']}`;
     }
     
-    await axios.get(tv_shows_url)
+    await axios.get(url)
                 .then(response => {
                     // console.log(response.data);
                     res.status(200).json(response.data);

@@ -15,7 +15,7 @@ export default function TvShowCard({tv_show}) {
         <div 
             className="movie-card"
             style={{
-                backgroundImage: `url(/images/${ tv_show.poster_path.split('/').pop() }?width=400)`
+                backgroundImage: `url(/images/${ tv_show.poster_path?.split('/').pop() }?width=400)`
             }}
             onClick={handleClick}>
 

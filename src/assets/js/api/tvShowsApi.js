@@ -1,11 +1,7 @@
 import axios from 'axios';
 
-export const fetchTvShows = (pageNumber) => {
-    if(!!pageNumber) {
-        return axios.get(`/api/tv-shows?page=${pageNumber}`);
-    }
-
-    return axios.get('/api/tv-shows');
+export const fetchTvShows = (options) => {
+    return axios.get('/api/tv-shows', options);
 };
 
 export const fetchTvShowDetails = (id) => {
